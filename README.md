@@ -9,8 +9,8 @@ Authors: [Alberto Marinelli](https://github.com/AlbertoMarinelli), [Martina Mele
 
 ## Abstract
 In order to extract the relationships underlying large volumes of data, neural networks have become the predominant choice for machine learning applications. While reasonably good performance can be achieved with Single Layer Feed-forward Networks (SLFNs) trained using a classical Back-Propagation (BP) approach, these algorithms are still slow in learning and have other disadvantages. Recently, some alternative algorithms have been proposed to address these problems.
-<br/>
-In this project it is used a (M) Machine Learning model based on a method called Extreme Learning proposed by Huang et al., with the employment of L2-regularization. In particular, a comparison was carried out between: (A1) which is a variant of incremental extreme learning machine (I-ELM) that is QRIELM, which uses QR factorization to decompose the matrix of the hidden output layer, reducing the computational complexity involved in computing the Moore-Penrose inverse, and (A2) which is a standard momentum descent (heavy ball) approach, applied to the Extreme Learning Machine.
+<br/> <br/>
+In this project it is used a (M) Machine Learning model based on a method called **Extreme Learning** proposed by Huang et al., with the employment of L2-regularization. In particular, a comparison was carried out between: (A1) which is a variant of incremental extreme learning machine (I-ELM) that is QRIELM, which uses **QR factorization** to decompose the matrix of the hidden output layer, reducing the computational complexity involved in computing the Moore-Penrose inverse, and (A2) which is a **standard momentum descent** (heavy ball) approach, applied to the Extreme Learning Machine.
 <br /><br />
 
 ## Main Results
