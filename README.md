@@ -13,7 +13,7 @@ In order to extract the relationships underlying large volumes of data, neural n
 In this project it is used a (M) Machine Learning model based on a method called Extreme Learning proposed by Huang et al., with the employment of L2-regularization. In particular, a comparison was carried out between: (A1) which is a variant of incremental extreme learning machine (I-ELM) that is QRIELM, which uses QR factorization to decompose the matrix of the hidden output layer, reducing the computational complexity involved in computing the Moore-Penrose inverse, and (A2) which is a standard momentum descent (heavy ball) approach, applied to the Extreme Learning Machine.
 <br /><br />
 
-##Main Results
+## Main Results
 The study compared two approaches, QRI-ELM and ELM with Standard Momentum, and evaluated their results. QRI-ELM outperformed ELM with Standard Momentum in terms of **solution quality**, almost reaching machine precision. ELM, even with optimal learning rate and momentum, achieved a lower solution quality of ≈1e-11.
 
 The **computational complexity** of ELM with optimal values makes it impractical for real-world problems. Therefore, it is important to consider results obtained with other values, which are more likely to be used for complex problems. The study found that the regularization coefficient had a significant impact on the performance of ELM with Standard Momentum. Decreasing λ value resulted in considerably worse solutions, increased iterations, and longer convergence time. On the other hand, larger regularization coefficients reduced the time required to find the solution.
