@@ -1,0 +1,76 @@
+clear variables
+load('import_CUP.mat')
+
+path = '..\ELM_momentum\initial_weights\weights-reg.mat';
+load(path)
+
+% Parameters
+lambda = 1e-2;
+return_hist = true;
+num_neurons = 150;
+act_function = "sigmoid";
+
+% Load weights
+w(1).weight = weight_matrix;
+
+tic
+% Parameters: (weights, input, target, threshold, k_max, activation_hidden, lambda, return_hist)
+[w_new, B, R, H, u_matrix, final_num_neurons, history] = train (w, dataset, dataset_target, 1e-10, num_neurons, act_function, lambda, return_hist);
+toc
+
+% Display final number of neurons
+final_num_neurons
+
+
+if (return_hist)
+    % Plot learning curve
+    pts.x = [1:size(history,2)];
+    pts.y = history;
+    pts.legend='QRI-ELM';
+    plot_learning_curve(pts)
+end
+
+% Generate H with regularization
+H_reg = [H;  lambda*eye(num_neurons)];
+target = [dataset_target; zeros(num_neurons, size(dataset_target,2))];
+
+cond_val = cond(H_reg) % Condition Number
+
+% Rewrite u_matrix
+u_matrix_mod = zeros(size(H_reg,1),num_neurons);
+for i=1:size(u_matrix_mod,2) % Slice of values
+    u_matrix_mod(:,i) = [zeros(i-1,1); u_matrix(:,i); zeros(num_neurons-i,1)];
+end
+[m, n] = size(H_reg);
+Q = eye(m,n);
+
+% Compute Q Incremental
+for j = n:-1:1
+    u = u_matrix_mod(j:m, j);
+    Q(j:m, 1:n) = Q(j:m, 1:n) - 2*u*(u'*Q(j:m, 1:n));
+end
+
+% Our prediction
+gap_pred = loss_function ("relative_gap_pred", target, H_reg, B)
+gap_sol = loss_function ("relative_gap_sol", target, H_reg, B)
+
+% Theoretical bound on error
+k_rel = cond(H_reg)*norm(target)/norm(H_reg*B);
+r1= Q'*(H_reg*B-target);
+bound = cond_val * norm(r1) / norm(H_reg*B)
+
+% QR error
+QR_error = norm(Q*R-H_reg)/norm(H_reg)
+
+% Matlab QR factorization
+[Q2, R2] = qr(H_reg, 0);
+c = Q2'*target;
+B2 = R2\c;
+
+% Matlab QR error
+gap_pred_mat = loss_function ("relative_gap_pred", target, H_reg, B2)
+gap_sol_mat = loss_function ("relative_gap_sol", target, H_reg, B2)
+
+% Difference between our solution and Matlab solution
+gap_sol_diff = gap_sol - gap_sol_mat
+gap_pred_diff = gap_pred - gap_pred_mat
